@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <title>微信公众示例数据</title>
+    <!--jquery-->
+    <script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>
+    <!--bootstrap-->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!--bootstrap-table-->
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.js"></script>
+    <!--bootstrap-table-lanuage-->
+    <!-- <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table-locale-all.min.js"></script> -->
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <div>
+                <h2 id="nickname"></h2>
+                更新时间:
+                <p id="date"></p>
+            </div>
+            <table id="table_base"></table>
+
+            <div>
+                <h2 id="nickname_all"></h2>
+                更新时间:
+                <p id="date_all"></p>
+            </div>
+            <table id="table_all"></table>
+        </div>
+    </div>
+    <script>
+        var $table_base = $('#table_base');
+        var datas = [];
+        var $table_all = $('#table_all');
+        var datas_all = [];
+        $(function () {
+            $.ajax({
+                url: "风能产业.json",
+                success: function (d) {
+                    if (d) {
+                        datas = d.rows;
+                        date = d.date;
+                        nickname = d.nickname;
+                        document.getElementById("date").innerHTML = date;
+                        document.getElementById("nickname").innerHTML = nickname;
+                        // 初始化表格
+                        initTable();
+                    }
+                }
+            });
+            $.ajax({
+                url: "看看土澳-all.json",
+                success: function (d) {
+                    if (d) {
+                        datas = d.rows;
+                        date = d.date;
+                        nickname = d.nickname;
+                        document.getElementById("date_all").innerHTML = date;
+                        document.getElementById("nickname_all").innerHTML = nickname;
+                        // 初始化表格
+                        initTable_all();
+                    }
+                }
+            });
+        });
+
+        function initTable() {
+            // 先销毁再创建
+            $table_base.bootstrapTable('destroy').bootstrapTable({
+                data: datas,// 表格数据
+                pagination: true, // 分页
+                classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
+                columns: [ // 列详情
+                    {
+                        title: 'url',// 表头字段名
+                        field: 'url',// 数据 key
+                        align: 'left',// 居中
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "100px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "150px"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'title',
+                        field: 'title',
+                        align: 'left',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "100px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "150px"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'date',
+                        field: 'date',
+                        align: 'left',
+                        width: '10%'
+                    }, {
+                        title: 'headlines',
+                        field: 'headlines',
+                        align: 'left',
+                        width: '10px',
+                    }, {
+                        title: 'copyright',
+                        field: 'copyright',
+                        align: 'left',
+                        width: '10px',
+                    }
+                ]
+            });
+        }
+
+        function initTable_all() {
+            // 先销毁再创建
+            $table_all.bootstrapTable('destroy').bootstrapTable({
+                data: datas,// 表格数据
+                pagination: true, // 分页
+                classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
+                columns: [ // 列详情
+                    {
+                        title: 'url',// 表头字段名
+                        field: 'url',// 数据 key
+                        align: 'left',// 居中
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "100px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "150px"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'title',
+                        field: 'title',
+                        align: 'left',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "100px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "150px"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'date',
+                        field: 'date',
+                        align: 'left',
+                        width: '20%',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "50px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "100px"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'headlines',
+                        field: 'headlines',
+                        align: 'left',
+                        width: '10px',
+                    }, {
+                        title: 'copyrigt',
+                        field: 'copyrigt',
+                        align: 'left',
+                        width: '10px',
+                    }, {
+                        title: 'read_num',
+                        field: 'read_num',
+                        align: 'left',
+                        width: '10px',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "background-color": "gold"
+                                }
+                            }
+                        },
+                    }, {
+                        title: 'old_like_num',
+                        field: 'old_like_num',
+                        align: 'left',
+                        width: '10px',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "background-color": "gold"
+                                }
+                            }
+                        },
+                    }, {
+                        title: 'like_num',
+                        field: 'like_num',
+                        align: 'left',
+                        width: '10px',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "background-color": "gold"
+                                }
+                            }
+                        },
+                    }, {
+                        title: 'comments_num',
+                        field: 'comments_num',
+                        align: 'left',
+                        width: '10px',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "background-color": "LightSkyBlue"
+                                }
+                            }
+                        }
+                    }, {
+                        title: 'comments_content',
+                        field: 'comments_content',
+                        align: 'left',
+                        width: '10px',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "50px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "100px",
+                                    "background-color": "LightSkyBlue"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'comments_like_num',
+                        field: 'comments_like_num',
+                        align: 'left',
+                        width: '10px',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "background-color": "LightSkyBlue"
+                                }
+                            }
+                        },
+                    }, {
+                        title: 'content',
+                        field: 'content',
+                        align: 'left',
+                        width: '10px',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "background-color": "Peru"
+                                }
+                            }
+                        },
+                    }, {
+                        title: 'content_num',
+                        field: 'content_num',
+                        align: 'left',
+                        width: '10px',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "50px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "100px",
+                                    "background-color": "Peru"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'pic_num',
+                        field: 'pic_num',
+                        align: 'left',
+                        width: '10px',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "background-color": "Peru"
+                                }
+                            }
+                        },
+                    }
+                ]
+            });
+        }
+    </script>
+</body>
+
+</html>
