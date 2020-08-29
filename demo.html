@@ -70,7 +70,7 @@
                         document.getElementById("date").innerHTML = "更新时间:" + date;
                         document.getElementById("nickname").innerHTML = nickname + "(历史文章)";
                         // 初始化表格
-                        initTable();
+                        initTable(datas);
                     }
                 }
             });
@@ -84,20 +84,20 @@
                         document.getElementById("date_2").innerHTML = "更新时间:" + date;
                         document.getElementById("nickname_2").innerHTML = nickname + "(历史文章)";
                         // 初始化表格
-                        initTable();
+                        initTable(datas_2);
                     }
                 }
             }); $.ajax({
                 url: "南方人物周刊.json",
                 success: function (d) {
                     if (d) {
-                        datas_3 = d.rows;
+                        datas = d.rows;
                         date = d.date;
                         nickname = d.nickname;
                         document.getElementById("date_3").innerHTML = "更新时间:" + date;
                         document.getElementById("nickname_3").innerHTML = nickname + "(历史文章)";
                         // 初始化表格
-                        initTable();
+                        initTable(datas);
                     }
                 }
             });
@@ -116,7 +116,7 @@
             });
         });
 
-        function initTable() {
+        function initTable(datas) {
             // 先销毁再创建
             $table_base.bootstrapTable('destroy').bootstrapTable({
                 data: datas,// 表格数据
