@@ -20,428 +20,101 @@
 <body>
     <div class="container">
         <p>由于数据量较大，数据可能需要几秒钟才能加载出来，请耐心等待...</p>
-        <div>
-            <div>
-                <h2 id="nickname"></h2>
-                <p id="date"></p>
-            </div>
-            <table id="table_base"></table>
-
-            <div>
-                <h2 id="nickname_2"></h2>
-                <p id="date_2"></p>
-            </div>
-            <table id="table_base_2"></table>
-
-            <div>
-                <h2 id="nickname_3"></h2>
-                <p id="date_3"></p>
-            </div>
-            <table id="table_base_3"></table>
-
-            <div>
-                <h2 id="nickname_all"></h2>
-                <p id="date_all"></p>
-            </div>
-            <table id="table_all"></table>
+        <div id="table_father">
         </div>
         <h4>联系方式（微信）</h4>
         <img
             src="https://camo.githubusercontent.com/1da9c77abe9c66be8e73c9a883fd9788acf9ae3a/68747470733a2f2f692e6c6f6c692e6e65742f323031392f30392f32302f31345147546b6667737444787639432e6a7067">
     </div>
     <script>
-        var $table_base = $('#table_base');
-        var datas = [];
-        var $table_base_2 = $('#table_base_2');
-        var datas_2 = [];
-        var $table_base_3 = $('#table_base_3');
-        var datas_3 = [];
-
-        var $table_all = $('#table_all');
-        var datas_all = [];
+        var table_div = document.getElementById('table_father');
+        var json_array = ['果壳.json', '冷兔.json', '南方人物周刊.json'];
         $(function () {
-            $.ajax({
-                url: "果壳.json",
-                success: function (d) {
-                    if (d) {
-                        datas = d.rows;
-                        date = d.date;
-                        nickname = d.nickname;
-                        document.getElementById("date").innerHTML = "更新时间:" + date;
-                        document.getElementById("nickname").innerHTML = nickname + "(历史文章)";
-                        // 初始化表格
-                        initTable(datas);
-                    }
-                }
-            });
-            $.ajax({
-                url: "冷兔.json",
-                success: function (d) {
-                    if (d) {
-                        datas_2 = d.rows;
-                        date = d.date;
-                        nickname = d.nickname;
-                        document.getElementById("date_2").innerHTML = "更新时间:" + date;
-                        document.getElementById("nickname_2").innerHTML = nickname + "(历史文章)";
-                        // 初始化表格
-                        initTable(datas_2);
-                    }
-                }
-            }); $.ajax({
-                url: "南方人物周刊.json",
-                success: function (d) {
-                    if (d) {
-                        datas_3 = d.rows;
-                        date = d.date;
-                        nickname = d.nickname;
-                        document.getElementById("date_3").innerHTML = "更新时间:" + date;
-                        document.getElementById("nickname_3").innerHTML = nickname + "(历史文章)";
-                        // 初始化表格
-                        initTable();
-                    }
-                }
-            });
-            $.ajax({
-                url: "看看土澳-all.json",
-                success: function (d) {
-                    if (d) {
-                        datas = d.rows;
-                        date = d.date;
-                        nickname = d.nickname;
-                        document.getElementById("date_all").innerHTML = "更新时间:" + date;
-                        document.getElementById("nickname_all").innerHTML = nickname + "(完整信息)";
-                        initTable_all();
-                    }
-                }
-            });
+            for (let index = 0; index < json_array.length; index++) {
+                var div_child = document.createElement('div');
+                var h = document.createElement('h2');
+                var p = document.createElement('p');
+                h.setAttribute("id", "nickname_" + String(index));
+                p.setAttribute("id", "date_" + String(index));
+                div_child.append(h);
+                div_child.append(p);
+                table_div.append(div_child);
+
+                var table_child = document.createElement('table');
+                table_child.setAttribute("id", "table_base_" + String(index));
+                table_div.append(table_child);
+            }
+            Loop_ajax(0, json_array);
         });
+        function Loop_ajax(index, array) {
+            if (index < array.length) {
 
-        function initTable() {
-            // 先销毁再创建
-            $table_base.bootstrapTable('destroy').bootstrapTable({
-                data: datas,// 表格数据
-                pagination: true, // 分页
-                classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
-                columns: [ // 列详情
-                    {
-                        title: 'title',
-                        field: 'title',
-                        align: 'left',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "min-width": "100px",
-                                    "white-space": "nowrap",
-                                    "text-overflow": "ellipsis",
-                                    "overflow": "hidden",
-                                    "max-width": "150px"
-                                }
+                var name = array[index];
+                var $table_base = $('#table_base_' + String(index + 1));
+                var datas = [];
+                $.ajax({
+                    url: name,
+                    success: function (d) {
+                        if (d) {
+                            datas = d.rows;
+                            date = d.date;
+                            nickname = d.nickname;
+                            document.getElementById("date_" + String(index + 1)).innerHTML = "更新时间:" + date;
+                            document.getElementById("nickname_" + String(index + 1)).innerHTML = nickname + "(历史文章)";
+                            // 初始化表格
+                            initTable();
+                            if (index < array.length) {
+                                Loop_ajax(index + 1, array);
                             }
-                        },
-                        formatter: function (value, row, index) {
-                            return "" + value + "";
                         }
-                    }, {
-                        title: 'date',
-                        field: 'date',
-                        align: 'left',
-                        width: '10%'
-                    }, {
-                        title: 'headlines',
-                        field: 'headlines',
-                        align: 'left',
-                        width: '10px',
-                    }, {
-                        title: 'copyright',
-                        field: 'copyright',
-                        align: 'left',
-                        width: '10px',
                     }
-                ]
-            });
-            $table_base_2.bootstrapTable('destroy').bootstrapTable({
-                data: datas_2,// 表格数据
-                pagination: true, // 分页
-                classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
-                columns: [ // 列详情
-                    {
-                        title: 'title',
-                        field: 'title',
-                        align: 'left',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "min-width": "100px",
-                                    "white-space": "nowrap",
-                                    "text-overflow": "ellipsis",
-                                    "overflow": "hidden",
-                                    "max-width": "150px"
+                });
+                function initTable() {
+                    // 先销毁再创建
+                    $table_base.bootstrapTable('destroy').bootstrapTable({
+                        data: datas,// 表格数据
+                        pagination: true, // 分页
+                        classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
+                        columns: [ // 列详情
+                            {
+                                title: 'title',
+                                field: 'title',
+                                align: 'left',
+                                cellStyle: function (value, row, index) {
+                                    return {
+                                        css: {
+                                            "min-width": "20px",
+                                            "white-space": "nowrap",
+                                            "text-overflow": "ellipsis",
+                                            "overflow": "hidden",
+                                            "max-width": "50px"
+                                        }
+                                    }
+                                },
+                                formatter: function (value, row, index) {
+                                    return "" + value + "";
                                 }
+                            }, {
+                                title: 'date',
+                                field: 'date',
+                                align: 'left',
+                                width: '10%'
+                            }, {
+                                title: 'headlines',
+                                field: 'headlines',
+                                align: 'left',
+                                width: '10px',
+                            }, {
+                                title: 'copyright',
+                                field: 'copyright',
+                                align: 'left',
+                                width: '10px',
                             }
-                        },
-                        formatter: function (value, row, index) {
-                            return "" + value + "";
-                        }
-                    }, {
-                        title: 'date',
-                        field: 'date',
-                        align: 'left',
-                        width: '10%'
-                    }, {
-                        title: 'headlines',
-                        field: 'headlines',
-                        align: 'left',
-                        width: '10px',
-                    }, {
-                        title: 'copyright',
-                        field: 'copyright',
-                        align: 'left',
-                        width: '10px',
-                    }
-                ]
-            });
-            $table_base_3.bootstrapTable('destroy').bootstrapTable({
-                data: datas_3,// 表格数据
-                pagination: true, // 分页
-                classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
-                columns: [ // 列详情
-                    {
-                        title: 'title',
-                        field: 'title',
-                        align: 'left',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "min-width": "100px",
-                                    "white-space": "nowrap",
-                                    "text-overflow": "ellipsis",
-                                    "overflow": "hidden",
-                                    "max-width": "150px"
-                                }
-                            }
-                        },
-                        formatter: function (value, row, index) {
-                            return "" + value + "";
-                        }
-                    }, {
-                        title: 'date',
-                        field: 'date',
-                        align: 'left',
-                        width: '10%'
-                    }, {
-                        title: 'headlines',
-                        field: 'headlines',
-                        align: 'left',
-                        width: '10px',
-                    }, {
-                        title: 'copyright',
-                        field: 'copyright',
-                        align: 'left',
-                        width: '10px',
-                    }
-                ]
-            });
-        }
+                        ]
+                    });
+                }
 
-        function initTable_all() {
-            // 先销毁再创建
-            $table_all.bootstrapTable('destroy').bootstrapTable({
-                data: datas,// 表格数据
-                pagination: true, // 分页
-                classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
-                columns: [ // 列详情
-                    {
-                        title: 'url',// 表头字段名
-                        field: 'url',// 数据 key
-                        align: 'left',// 居中
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "min-width": "100px",
-                                    "white-space": "nowrap",
-                                    "text-overflow": "ellipsis",
-                                    "overflow": "hidden",
-                                    "max-width": "150px"
-                                }
-                            }
-                        },
-                        formatter: function (value, row, index) {
-                            return "" + value + "";
-                        }
-                    }, {
-                        title: 'title',
-                        field: 'title',
-                        align: 'left',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "min-width": "100px",
-                                    "white-space": "nowrap",
-                                    "text-overflow": "ellipsis",
-                                    "overflow": "hidden",
-                                    "max-width": "150px"
-                                }
-                            }
-                        },
-                        formatter: function (value, row, index) {
-                            return "" + value + "";
-                        }
-                    }, {
-                        title: 'date',
-                        field: 'date',
-                        align: 'left',
-                        width: '20%',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "min-width": "50px",
-                                    "white-space": "nowrap",
-                                    "text-overflow": "ellipsis",
-                                    "overflow": "hidden",
-                                    "max-width": "100px"
-                                }
-                            }
-                        },
-                        formatter: function (value, row, index) {
-                            return "" + value + "";
-                        }
-                    }, {
-                        title: 'headlines',
-                        field: 'headlines',
-                        align: 'left',
-                        width: '10px',
-                    }, {
-                        title: 'copyrigt',
-                        field: 'copyrigt',
-                        align: 'left',
-                        width: '10px',
-                    }, {
-                        title: 'read_num',
-                        field: 'read_num',
-                        align: 'left',
-                        width: '10px',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "background-color": "gold"
-                                }
-                            }
-                        },
-                    }, {
-                        title: 'old_like_num',
-                        field: 'old_like_num',
-                        align: 'left',
-                        width: '10px',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "background-color": "gold"
-                                }
-                            }
-                        },
-                    }, {
-                        title: 'like_num',
-                        field: 'like_num',
-                        align: 'left',
-                        width: '10px',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "background-color": "gold"
-                                }
-                            }
-                        },
-                    }, {
-                        title: 'comments_num',
-                        field: 'comments_num',
-                        align: 'left',
-                        width: '10px',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "background-color": "LightSkyBlue"
-                                }
-                            }
-                        }
-                    }, {
-                        title: 'comments_content',
-                        field: 'comments_content',
-                        align: 'left',
-                        width: '10px',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "min-width": "50px",
-                                    "white-space": "nowrap",
-                                    "text-overflow": "ellipsis",
-                                    "overflow": "hidden",
-                                    "max-width": "100px",
-                                    "background-color": "LightSkyBlue"
-                                }
-                            }
-                        },
-                        formatter: function (value, row, index) {
-                            return "" + value + "";
-                        }
-                    }, {
-                        title: 'comments_like_num',
-                        field: 'comments_like_num',
-                        align: 'left',
-                        width: '10px',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "background-color": "LightSkyBlue"
-                                }
-                            }
-                        },
-                    }, {
-                        title: 'content',
-                        field: 'content',
-                        align: 'left',
-                        width: '10px',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "background-color": "Peru"
-                                }
-                            }
-                        },
-                    }, {
-                        title: 'content_num',
-                        field: 'content_num',
-                        align: 'left',
-                        width: '10px',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "min-width": "50px",
-                                    "white-space": "nowrap",
-                                    "text-overflow": "ellipsis",
-                                    "overflow": "hidden",
-                                    "max-width": "100px",
-                                    "background-color": "Peru"
-                                }
-                            }
-                        },
-                        formatter: function (value, row, index) {
-                            return "" + value + "";
-                        }
-                    }, {
-                        title: 'pic_num',
-                        field: 'pic_num',
-                        align: 'left',
-                        width: '10px',
-                        cellStyle: function (value, row, index) {
-                            return {
-                                css: {
-                                    "background-color": "Peru"
-                                }
-                            }
-                        },
-                    }
-                ]
-            });
+            }
         }
     </script>
 </body>
