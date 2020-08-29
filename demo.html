@@ -91,13 +91,13 @@
                 url: "南方人物周刊.json",
                 success: function (d) {
                     if (d) {
-                        datas = d.rows;
+                        datas_3 = d.rows;
                         date = d.date;
                         nickname = d.nickname;
                         document.getElementById("date_3").innerHTML = "更新时间:" + date;
                         document.getElementById("nickname_3").innerHTML = nickname + "(历史文章)";
                         // 初始化表格
-                        initTable(datas);
+                        initTable();
                     }
                 }
             });
@@ -116,10 +116,128 @@
             });
         });
 
-        function initTable(datas) {
+        function initTable() {
             // 先销毁再创建
             $table_base.bootstrapTable('destroy').bootstrapTable({
                 data: datas,// 表格数据
+                pagination: true, // 分页
+                classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
+                columns: [ // 列详情
+                    {
+                        title: 'url',// 表头字段名
+                        field: 'url',// 数据 key
+                        align: 'left',// 居中
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "100px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "150px"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'title',
+                        field: 'title',
+                        align: 'left',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "100px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "150px"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'date',
+                        field: 'date',
+                        align: 'left',
+                        width: '10%'
+                    }, {
+                        title: 'headlines',
+                        field: 'headlines',
+                        align: 'left',
+                        width: '10px',
+                    }, {
+                        title: 'copyright',
+                        field: 'copyright',
+                        align: 'left',
+                        width: '10px',
+                    }
+                ]
+            });
+            $table_base_2.bootstrapTable('destroy').bootstrapTable({
+                data: datas_2,// 表格数据
+                pagination: true, // 分页
+                classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
+                columns: [ // 列详情
+                    {
+                        title: 'url',// 表头字段名
+                        field: 'url',// 数据 key
+                        align: 'left',// 居中
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "100px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "150px"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'title',
+                        field: 'title',
+                        align: 'left',
+                        cellStyle: function (value, row, index) {
+                            return {
+                                css: {
+                                    "min-width": "100px",
+                                    "white-space": "nowrap",
+                                    "text-overflow": "ellipsis",
+                                    "overflow": "hidden",
+                                    "max-width": "150px"
+                                }
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return "" + value + "";
+                        }
+                    }, {
+                        title: 'date',
+                        field: 'date',
+                        align: 'left',
+                        width: '10%'
+                    }, {
+                        title: 'headlines',
+                        field: 'headlines',
+                        align: 'left',
+                        width: '10px',
+                    }, {
+                        title: 'copyright',
+                        field: 'copyright',
+                        align: 'left',
+                        width: '10px',
+                    }
+                ]
+            });
+            $table_base_3.bootstrapTable('destroy').bootstrapTable({
+                data: datas_3,// 表格数据
                 pagination: true, // 分页
                 classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
                 columns: [ // 列详情
