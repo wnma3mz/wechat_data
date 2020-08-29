@@ -52,6 +52,11 @@
     <script>
         var $table_base = $('#table_base');
         var datas = [];
+        var $table_base_2 = $('#table_base_2');
+        var datas_2 = [];
+        var $table_base_3 = $('#table_base_3');
+        var datas_3 = [];
+
         var $table_all = $('#table_all');
         var datas_all = [];
         $(function () {
@@ -63,7 +68,7 @@
                         date = d.date;
                         nickname = d.nickname;
                         document.getElementById("date").innerHTML = "更新时间:" + date;
-                        document.getElementById("nickname").innerHTML = nickname + "(历史文章链接)";
+                        document.getElementById("nickname").innerHTML = nickname + "(历史文章)";
                         // 初始化表格
                         initTable();
                     }
@@ -73,24 +78,24 @@
                 url: "冷兔.json",
                 success: function (d) {
                     if (d) {
-                        datas = d.rows;
+                        datas_2 = d.rows;
                         date = d.date;
                         nickname = d.nickname;
                         document.getElementById("date_2").innerHTML = "更新时间:" + date;
-                        document.getElementById("nickname_2").innerHTML = nickname + "(历史文章链接)";
+                        document.getElementById("nickname_2").innerHTML = nickname + "(历史文章)";
                         // 初始化表格
                         initTable();
                     }
                 }
-            });            $.ajax({
+            }); $.ajax({
                 url: "南方人物周刊.json",
                 success: function (d) {
                     if (d) {
-                        datas = d.rows;
+                        datas_3 = d.rows;
                         date = d.date;
                         nickname = d.nickname;
                         document.getElementById("date_3").innerHTML = "更新时间:" + date;
-                        document.getElementById("nickname_3").innerHTML = nickname + "(历史文章链接)";
+                        document.getElementById("nickname_3").innerHTML = nickname + "(历史文章)";
                         // 初始化表格
                         initTable();
                     }
