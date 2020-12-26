@@ -20,13 +20,14 @@
 <body>
     <div class="container">
         <p>由于数据量较大，数据可能需要几秒钟才能加载出来，请耐心等待...</p>
-        <p>为减轻页面压力，这里只放出很少一部分公众号</p>
+        <p>为减轻页面压力，这里只放出很少一部分公众号的近20天左右的数据</p>
+        <p>由于评论和文章内容更为耗时，占用相对较大空间，故页面呈现未抓取</p>
 
         <div id="table_father">
         </div>
-        <h4>联系方式（微信）</h4>
+        <h4>联系方式（微信号: wnma3mz）</h4>
         <img
-            src="https://camo.githubusercontent.com/1da9c77abe9c66be8e73c9a883fd9788acf9ae3a/68747470733a2f2f692e6c6f6c692e6e65742f323031392f30392f32302f31345147546b6667737444787639432e6a7067">
+            src="wechat.jpg">
     </div>
     <script>
         var table_div = document.getElementById('table_father');
@@ -79,7 +80,7 @@
                         classes: 'table table-bordered table-hover table-striped', // 样式，table-striped 隔行变色
                         columns: [ // 列详情
                             {
-                                title: 'title',
+                                title: '标题',
                                 field: 'title',
                                 align: 'left',
                                 cellStyle: function (value, row, index) {
@@ -97,20 +98,112 @@
                                     return "" + value + "";
                                 }
                             }, {
-                                title: 'date',
+                                title: '日期',
                                 field: 'date',
                                 align: 'left',
                                 width: '20%'
                             }, {
-                                title: 'headlines',
+                                title: '头条',
                                 field: 'headlines',
                                 align: 'left',
                                 width: '10px',
                             }, {
-                                title: 'copyright',
+                                title: '原创',
                                 field: 'copyright',
                                 align: 'left',
                                 width: '10px',
+                            }, {
+                                title: '阅读',
+                                field: 'read_num',
+                                align: 'left',
+                                width: '10px',
+                                cellStyle: function (value, row, index) {
+                                    return {
+                                        css: {
+                                            "background-color": "gold"
+                                        }
+                                    }
+                                },
+                            }, {
+                                title: '点赞',
+                                field: 'old_like_num',
+                                align: 'left',
+                                width: '10px',
+                                cellStyle: function (value, row, index) {
+                                    return {
+                                        css: {
+                                            "background-color": "gold"
+                                        }
+                                    }
+                                },
+                            }, {
+                                title: '在看',
+                                field: 'like_num',
+                                align: 'left',
+                                width: '10px',
+                                cellStyle: function (value, row, index) {
+                                    return {
+                                        css: {
+                                            "background-color": "gold"
+                                        }
+                                    }
+                                },
+                            }, {
+                                title: '评论数',
+                                field: 'comments_num',
+                                align: 'left',
+                                width: '10px',
+                                cellStyle: function (value, row, index) {
+                                    return {
+                                        css: {
+                                            "background-color": "LightSkyBlue"
+                                        }
+                                    }
+                                }
+                            }, {
+                                title: '评论内容',
+                                field: 'comments_content',
+                                align: 'left',
+                                width: '10px',
+                                cellStyle: function (value, row, index) {
+                                    return {
+                                        css: {
+                                            "min-width": "50px",
+                                            "white-space": "nowrap",
+                                            "text-overflow": "ellipsis",
+                                            "overflow": "hidden",
+                                            "max-width": "100px",
+                                            "background-color": "LightSkyBlue"
+                                        }
+                                    }
+                                },
+                                formatter: function (value, row, index) {
+                                    return "" + value + "";
+                                }
+                            }, {
+                                title: '评论点赞',
+                                field: 'comments_like_num',
+                                align: 'left',
+                                width: '10px',
+                                cellStyle: function (value, row, index) {
+                                    return {
+                                        css: {
+                                            "background-color": "LightSkyBlue"
+                                        }
+                                    }
+                                },
+                            }, {
+                                title: '内容',
+                                field: 'content',
+                                align: 'left',
+                                width: '10px',
+                                cellStyle: function (value, row, index) {
+                                    return {
+                                        css: {
+                                            "background-color": "Peru"
+                                        }
+                                    }
+                                },
                             }
                         ]
                     });
